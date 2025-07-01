@@ -1,10 +1,6 @@
-import { Todo } from "@/types";
-import { FlatList, StyleSheet } from "react-native";
+import { useTodoData } from "@/context/TodoDataContext";
+import { FlatList, StyleSheet, Text } from "react-native";
 import TodoItem from "./TodoItem";
-
-type TodoListProps = {
-  data: Todo[]
-}
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -16,14 +12,22 @@ const styles = StyleSheet.create({
   }
 });
 
-const TodoList: React.FC<TodoListProps> = ({ data }) => {
+const TodoList: React.FC = () => {
+  const { todoData } = useTodoData();
+
   return (
-    <FlatList
-      data={data}
-      renderItem={TodoItem}
-      style={styles.wrapper}
-      contentContainerStyle={styles.contentContainer}
-    />
+    <>
+      {!todoData.length ? (
+        <Text>Your todo list is empty.</Text>
+      ):(
+        <FlatList
+          data={todoData}
+          renderItem={TodoItem}
+          style={styles.wrapper}
+          contentContainerStyle={styles.contentContainer}
+        />
+      )}
+    </>
   );
 }
 
